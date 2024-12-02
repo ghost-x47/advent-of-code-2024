@@ -8,15 +8,10 @@ import "core:math"
 
 
 day02a :: proc() {
-	file, ok := os.read_entire_file("day02.txt")
-	if !ok {
-		panic("Could Not Load Day02 Input")
-	}
 	sum : int = 0
-	lines := strings.split_lines(transmute(string)file)
-	for line in lines {
-		levels := strings.split(line, " ")
-		if is_report_safe(levels) {
+	input := day02_read_input("day02.txt")
+	for report in input {
+		if is_report_safe(report[:]) {
 			sum += 1
 		}
 	}
@@ -24,31 +19,44 @@ day02a :: proc() {
 }
 
 
-
-day02b :: proc() {
-	file, ok := os.read_entire_file("day02.txt")
+day02_read_input :: proc(filename:string, allocator := context.allocator) -> [dynamic][dynamic]int {
+	file, ok := os.read_entire_file(filename, allocator)
 	if !ok {
 		panic("Could Not Load Day02 Input")
 	}
-	sum : int = 0
-	levels_partial := make([dynamic]string)
-	defer free(&levels_partial)
-	lines := strings.split_lines(transmute(string)file)
+	lines := strings.split_lines(transmute(string)file, allocator)
+	result : [dynamic][dynamic]int = make([dynamic][dynamic]int, allocator)
 	for line in lines {
-		levels := strings.split(line, " ")
-		fmt.println("Test")
-		fmt.println(levels)
-		if is_report_safe(levels) {
+		levels := strings.split(line, " ", allocator)
+		line_result := make([dynamic]int, allocator)
+		for level in levels {
+			val, ok := strconv.parse_int(level)
+			if !ok do continue
+			append(&line_result, val)
+		}
+		append(&result, line_result)
+	}
+	return result
+}
+
+
+
+day02b :: proc() {
+	input := day02_read_input("day02.txt")
+	sum : int = 0
+	levels_partial := make([dynamic]int)
+	defer free(&levels_partial)
+	for report in input {
+		if is_report_safe(report[:]) {
 			sum += 1
 		} else {
-			length := len(levels)
+			length := len(report)
 			test: for i in 0..<length {
 				clear(&levels_partial)
 				for j in 0..<length {
 					if i == j do continue
-					append(&levels_partial, levels[j])
+					append(&levels_partial, report[j])
 				}
-				fmt.println(levels_partial)
 				if is_report_safe(levels_partial[:]) {
 					sum += 1
 					break test
@@ -59,14 +67,12 @@ day02b :: proc() {
 	fmt.println(sum)
 }
 
-is_report_safe :: proc(levels: []string) -> bool {
-	
+is_report_safe :: proc(levels: []int) -> bool {
 	direction := 0
 	last_level := 0
 	i := 0
 	for level in levels {
-		val, _ := strconv.parse_int(level)
-		if !is_level_safe(val, i, &direction, &last_level) {
+		if !is_level_safe(level, i, &direction, &last_level) {
 			return false
 		}
 		i += 1
