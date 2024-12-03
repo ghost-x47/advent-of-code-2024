@@ -6,7 +6,7 @@ import "core:strconv"
 import "core:os"
 import "core:sort"
 
-day01_first :: proc() {
+day01a :: proc() {
 	file, ok := os.read_entire_file("day01_First.txt")
 	if !ok {
 		panic("Could Not Load Day01_First_Test.txt")
@@ -35,7 +35,7 @@ day01_first :: proc() {
 	fmt.println("Result:", sum)
 }
 
-day01_second :: proc() {
+day01b :: proc() {
 	file, ok := os.read_entire_file("day01_First.txt")
 	if !ok {
 		panic("Could Not Load Day01_First_Test.txt")

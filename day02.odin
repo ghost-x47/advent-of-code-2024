@@ -39,8 +39,6 @@ day02_read_input :: proc(filename:string, allocator := context.allocator) -> [dy
 	return result
 }
 
-
-
 day02b :: proc() {
 	input := day02_read_input("day02.txt")
 	sum : int = 0
