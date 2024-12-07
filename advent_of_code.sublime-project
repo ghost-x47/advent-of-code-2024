@@ -8,7 +8,10 @@
 			"path": "C:\\Langs\\Odin\\examples",
 		},
 		{
-			"path": "C:\\Langs\\Odin\\vendor"
+			"path": "C:\\Langs\\Odin\\vendor",
+		},
+		{
+			"path": "C:\\Projects\\ODIN\\examples"
 		},
 	],
 	"build_systems":
