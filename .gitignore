@@ -2,3 +2,4 @@
 *.pdb
 *.txt
 *.sublime-workspace
+.vs/

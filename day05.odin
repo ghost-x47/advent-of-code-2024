@@ -7,7 +7,7 @@ import "core:strconv"
 
 
 day05b :: proc() {
-	input := day04_read_input("day05.txt")
+	input := day05_read_input("day05.txt")
 	sum : i32 = 0
 	for u in input.updates {
 		fmt.println("Update", u)
@@ -50,7 +50,7 @@ is_higher :: proc(lhs, rhs : i32, rules : [][2]i32) -> bool {
 
 
 day05a :: proc() {
-	input := day04_read_input("day05.txt")
+	input := day05_read_input("day05.txt")
 	sum : i32 = 0
 	for u in input.updates {
 		fmt.println("Update", u)
@@ -109,7 +109,7 @@ Manual :: struct {
 	updates : [][]i32
 }
 
-day04_read_input :: proc(filename : string) -> Manual {
+day05_read_input :: proc(filename : string) -> Manual {
 	file, ok := os.read_entire_file(filename)
 	if !ok {
 		panic("Could Not Load Day05 Input")
