@@ -15,7 +15,7 @@ day02a :: proc() {
             sum += 1
         }
     }
-    fmt.println(sum)
+    fmt.println("Result:", sum)
 }
 
 
@@ -43,7 +43,7 @@ day02b :: proc() {
     input := day02_read_input("day02.txt")
     sum : int = 0
     levels_partial := make([dynamic]int)
-    defer free(&levels_partial)
+    defer delete(levels_partial)
     for report in input {
         if is_report_safe(report[:]) {
             sum += 1
@@ -62,7 +62,7 @@ day02b :: proc() {
             }
         }
     }
-    fmt.println(sum)
+    fmt.println("Result:", sum)
 }
 
 is_report_safe :: proc(levels: []int) -> bool {

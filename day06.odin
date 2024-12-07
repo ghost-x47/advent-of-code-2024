@@ -7,6 +7,7 @@ import "core:strconv"
 import "core:slice"
 import "core:os"
 import "base:runtime"
+import "core:thread"
 
 OBSTACLE :: '#'
 GUARD_MARK :: 'X'
@@ -47,10 +48,10 @@ Track :: struct {
 
 day06b :: proc() {
     collisions := make([dynamic]Track)
-    defer free(&collisions)
+    defer delete(collisions)
 
     taken_path := make([dynamic]Track)
-    defer free(&taken_path)
+    defer delete(taken_path)
 
     input := day06_read_input("day06.txt")
     count := 0
@@ -64,7 +65,7 @@ day06b :: proc() {
         }
         append(&taken_path, Track{guard.position, guard.direction})
     }
-    fmt.println("Result", count)
+    fmt.println("Result:", count)
 }
 can_loop :: proc(data: ^Input, initial_guard: Guard, collisions, taken_path: ^[dynamic]Track) -> bool {
     guard := guard_turn(initial_guard)
@@ -76,7 +77,6 @@ can_loop :: proc(data: ^Input, initial_guard: Guard, collisions, taken_path: ^[d
     for move(data, &guard) {
         for col in collisions {
             if col.pos == guard.position && col.dir == guard.direction {
-                fmt.println("", additional_obstacle)
                 return true
             }
         }
@@ -120,7 +120,7 @@ day06a :: proc() {
             }
         }
     }
-    fmt.println("Result", sum)
+    fmt.println("Result:", sum)
 }
 
 

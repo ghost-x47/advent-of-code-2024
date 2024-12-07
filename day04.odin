@@ -61,7 +61,7 @@ day04b :: proc() {
             }
         }
     }
-    fmt.println("Matches Found", count)
+    fmt.println("Result:", count)
 }
 
 day04a :: proc() {
@@ -81,8 +81,7 @@ day04a :: proc() {
             }
         }
     }
-    fmt.println(input)
-    fmt.println("Find", count, "Matches")
+    fmt.println("Result:", count)
 }
 
 day04a_read_input :: proc(filename : string) -> []string {

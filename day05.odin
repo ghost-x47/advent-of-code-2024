@@ -10,17 +10,14 @@ day05b :: proc() {
     input := day05_read_input("day05.txt")
     sum : i32 = 0
     for u in input.updates {
-        fmt.println("Update", u)
         if !check_update(u, input.rules) {
-            fmt.println("----", "Update Incorrect")
             correct := find_correct(u, input.rules)
             st := check_update(correct, input.rules)
-            fmt.println("ST after correction", st)
             s := middle_page(correct)
             sum += s
         }
     }
-    fmt.println("Result", sum)
+    fmt.println("Result:", sum)
 }
 
 
@@ -53,15 +50,12 @@ day05a :: proc() {
     input := day05_read_input("day05.txt")
     sum : i32 = 0
     for u in input.updates {
-        fmt.println("Update", u)
         if check_update(u, input.rules) {
-            fmt.println("----", "Update Successful")
             s := middle_page(u)
-
             sum += s
         }
     }
-    fmt.println("Result", sum)
+    fmt.println("Result:", sum)
 }
 
 
@@ -77,7 +71,6 @@ check_update :: proc(update : []i32, rules : [][2]i32) -> bool {
 }
 
 check_update_lower :: proc(page:i32, check:[]i32, rules : [][2]i32) -> bool {
-    fmt.println("Checking Lower", page, check)
     for r in rules {
         if r.x != page do continue 
         for c in check {
@@ -87,7 +80,6 @@ check_update_lower :: proc(page:i32, check:[]i32, rules : [][2]i32) -> bool {
     return true
 }
 check_update_higher :: proc(page:i32, check:[]i32, rules : [][2]i32) -> bool {
-    fmt.println("Checking Higher", page, check)
     for r in rules {
         if r.y != page do continue 
         for c in check {
@@ -100,7 +92,6 @@ check_update_higher :: proc(page:i32, check:[]i32, rules : [][2]i32) -> bool {
 middle_page :: proc(update : []i32) -> i32 {
     l := len(update)
     result := update[l / 2]
-    fmt.println("Measured central value", update, result)
     return result
 }
 

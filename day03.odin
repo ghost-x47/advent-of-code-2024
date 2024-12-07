@@ -22,13 +22,11 @@ find_position :: proc(data: []u8, start_index : int, target : u8) -> int {
 
 day03b :: proc() {
     input := day03a_read_input("day03.txt")
-    fmt.println(transmute(string)input)
     i := 0
     enabled := true
     sum : i64 = 0
     for {
         if enabled && is_substring(input, i, MUL_TOKEN) {
-            fmt.println("Match at", i)
             i += len(MUL_TOKEN)
             end := find_position(input, i, ')')
             if end == -1 {
@@ -37,20 +35,15 @@ day03b :: proc() {
             lhs, rhs, ok := match_mul_args(input, i, end)
             if ok {
                 i = end 
-                fmt.println("Multiply ", lhs, rhs)
                 sum += i64(lhs * rhs)
-            } else {
-                fmt.println(transmute(string)input[i:end])
             }
         }
         else if is_substring(input, i, DO_TOKEN) {
             i += len(DO_TOKEN)
-            fmt.println("ENABLE")
             enabled = true
         }
         else if is_substring(input, i, DONT_TOKEN) {
             i += len(DONT_TOKEN)
-            fmt.println("DISABLE")
             enabled = false
         } else {
             i += 1  
@@ -60,19 +53,17 @@ day03b :: proc() {
             break
         }
     }
-    fmt.println("Result: ", sum)
+    fmt.println("Result:", sum)
 }
 
 
 day03a :: proc() {
     input := day03a_read_input("day03.txt")
-    fmt.println(transmute(string)input)
     i := 0
     sum : i64 = 0
     for {
         if input[i] == MUL_TOKEN[0] {
             if is_substring(input, i, MUL_TOKEN) {
-                fmt.println("Match at", i)
                 i += len(MUL_TOKEN)
                 end := find_position(input, i, ')')
                 if end == -1 {
@@ -81,10 +72,7 @@ day03a :: proc() {
                 lhs, rhs, ok := match_mul_args(input, i, end)
                 if ok {
                     i = end 
-                    fmt.println("Multiply ", lhs, rhs)
                     sum += i64(lhs * rhs)
-                } else {
-                    fmt.println(transmute(string)input[i:end])
                 }
             }
         }
@@ -93,7 +81,7 @@ day03a :: proc() {
             break
         }
     }
-    fmt.println("Result: ", sum)
+    fmt.println("Result:", sum)
 }
 
 

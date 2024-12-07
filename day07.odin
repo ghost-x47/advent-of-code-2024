@@ -15,7 +15,7 @@ Equation :: struct {
     operands : []i64,
 }
 
-day07b_threaded :: proc() {
+day07b :: proc() {
     input := day07_read_input("day07.txt")
     sum : i64 = 0
     pool: thread.Pool
@@ -23,7 +23,7 @@ day07b_threaded :: proc() {
     defer thread.pool_destroy(&pool)
 
     for &t, i in input {
-        thread.pool_add_task(&pool, context.allocator, task, &t)
+        thread.pool_add_task(&pool, context.allocator, day_07_task, &t)
     }
 
     thread.pool_start(&pool)
@@ -34,7 +34,7 @@ day07b_threaded :: proc() {
     fmt.println("Result:", sum)
 }
 
-task :: proc (thr: thread.Task) {
+day_07_task :: proc (thr: thread.Task) {
     t := transmute(^Equation)thr.data
     length := i64(math.pow(3, f32(len(t.operands)-1)))
     for i in 0..<length {
@@ -80,7 +80,6 @@ day07a :: proc() {
             
             if test_result == t.result {
                 sum += t.result
-                fmt.println(t)
                 break test
             }
         }
