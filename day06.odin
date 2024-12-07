@@ -44,10 +44,6 @@ Track :: struct {
 	pos : [2]i32,
 	dir : Direction
 }
-obstacles_placed := 0
-initial_pos : [2]i32
-length := 0
-turns := 0
 
 day06b :: proc() {
 	collisions := make([dynamic]Track)
@@ -59,9 +55,8 @@ day06b :: proc() {
 	input := day06_read_input("day06.txt")
 	count := 0
 	guard := guard_get(input.mapp)
-	initial_pos = guard.position
 	input.mapp[guard.position.y][guard.position.x] = '.'
-
+	append(&taken_path, Track{guard.position, guard.direction})
 	loop:= true
 	for move(&input, &guard) {
 		if can_loop(&input, guard, &collisions, &taken_path) {
@@ -75,11 +70,10 @@ can_loop :: proc(data: ^Input, initial_guard: Guard, collisions, taken_path: ^[d
 	guard := guard_turn(initial_guard)
 	additional_obstacle := place_obstacle(data, initial_guard, taken_path[:])
 	if additional_obstacle == {-1, -1} do return false
-	obstacles_placed += 1
 	defer remove_obstacle(data, additional_obstacle)
 	defer clear(collisions)
 	
-	for move_2(data, &guard) {
+	for move(data, &guard) {
 		for col in collisions {
 			if col.pos == guard.position && col.dir == guard.direction {
 				fmt.println("", additional_obstacle)
@@ -94,12 +88,13 @@ can_loop :: proc(data: ^Input, initial_guard: Guard, collisions, taken_path: ^[d
 
 place_obstacle :: proc(data: ^Input, guard: Guard, taken_path : []Track) -> [2]i32 {
 	next_pos := guard.position + GuardDir[guard.direction]
-	if next_pos == initial_pos do return {-1,-1}
+
 	if outside_bounds(next_pos, data.size) do return {-1,-1}
+	if data.mapp[next_pos.y][next_pos.x] == OBSTACLE do return {-1,-1}
 	for t in taken_path {
 		if next_pos == t.pos do return {-1,-1}
 	}
-	if data.mapp[next_pos.y][next_pos.x] == OBSTACLE do return {-1,-1}
+	
 	data.mapp[next_pos.y][next_pos.x] = OBSTACLE
 	return next_pos
 }
@@ -111,11 +106,10 @@ remove_obstacle :: proc(data: ^Input, position : [2]i32) {
 day06a :: proc() {
 	input := day06_read_input("day06.txt")
 	guard := guard_get(input.mapp)
-	moves := 0
+
 	input.mapp[guard.position.y][guard.position.x] = GUARD_MARK
 	for move(&input, &guard) {
 		input.mapp[guard.position.y][guard.position.x] = GUARD_MARK
-		moves += 1
 	}
 
 	sum := 0
@@ -126,7 +120,6 @@ day06a :: proc() {
 			}
 		}
 	}
-	fmt.println("Moves", moves)
 	fmt.println("Result", sum)
 }
 
@@ -135,25 +128,12 @@ outside_bounds :: proc(pos : [2]i32, size: [2]i32) -> bool {
 	return pos.x < 0 || pos.x >= size.x || pos.y < 0 || pos.y >= size.y
 }
 
-move_2 :: proc(input : ^Input, guard : ^Guard) -> bool {
-	next_pos := guard.position + GuardDir[guard.direction]
-
-	if outside_bounds(next_pos, input.size) do return false
-	if input.mapp[next_pos.y][next_pos.x] == OBSTACLE {
-		guard^ = guard_turn(guard^)
-		return true
-	}
-	guard.position = next_pos
-	return true
-}
-
 move :: proc(input : ^Input, guard : ^Guard) -> bool {
 	next_pos := guard.position + GuardDir[guard.direction]
 
 	if outside_bounds(next_pos, input.size) do return false
 	if input.mapp[next_pos.y][next_pos.x] == OBSTACLE {
 		guard^ = guard_turn(guard^)
-		turns += 1
 		return true
 	}
 	guard.position = next_pos
@@ -188,10 +168,10 @@ day06_read_input :: proc(filename : string) -> Input {
 		panic("Could Not Load Day06 Input")
 	}
 	split := strings.split_lines(transmute(string)file)
-	sp2 := make([dynamic][]u8)
+	array2d := make([dynamic][]u8)
 	for line in split {
-		append(&sp2, transmute([]u8)line)
+		append(&array2d, transmute([]u8)line)
 	}
 	size := [2]i32{i32(len(split[0])), i32(len(split))}
-	return { sp2[:], size}
+	return { array2d[:], size}
 }
