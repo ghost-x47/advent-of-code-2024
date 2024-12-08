@@ -17,4 +17,6 @@ main :: proc() {
 	fmt.print("Day 06 2 ");day06b()
 	fmt.print("Day 07 1 ");day07a()
 	fmt.print("Day 07 2 ");day07b()	
+	fmt.print("Day 08 1 ");day08a()
+	fmt.print("Day 08 2 ");day08b()	
 }
