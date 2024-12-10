@@ -1,6 +1,7 @@
 package main
 
 import "core:fmt"
+import "core:strings"
 
 main :: proc() {
 	fmt.print("Day 01 1 ");day01a()
@@ -18,5 +19,8 @@ main :: proc() {
 	fmt.print("Day 07 1 ");day07a()
 	fmt.print("Day 07 2 ");day07b()	
 	fmt.print("Day 08 1 ");day08a()
-	fmt.print("Day 08 2 ");day08b()	
+	fmt.print("Day 08 2 ");day08b()
+	fmt.print("Day 09 1 ");day09a()	
+	fmt.print("Day 09 2 ");day09b()	
+	
 }

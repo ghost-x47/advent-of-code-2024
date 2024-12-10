@@ -3,3 +3,4 @@
 *.txt
 *.sublime-workspace
 .vs/
+*.rdi
