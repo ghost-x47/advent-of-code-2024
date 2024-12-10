@@ -34,13 +34,19 @@ day09b_visual :: proc() {
 	state:= day09b_init()
 	speed:= 10
 	track_pos := false
+	is_run := false
 	position :[2]f32 = {0, 0}
 	for !rl.WindowShouldClose() {
-		for i in 0..<speed {
-			optimize_files_next(&state)		
+		if is_run {
+			for i in 0..<speed {
+				optimize_files_next(&state)		
+			}
 		}
 		
 		if rl.IsKeyPressed(.P) {
+			is_run = !is_run
+		}
+		if rl.IsKeyPressed(.D) {
 			println(state.array)
 		}
 		if rl.IsMouseButtonPressed(rl.MouseButton.LEFT) {

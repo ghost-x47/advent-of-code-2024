@@ -22,5 +22,5 @@ main :: proc() {
 	fmt.print("Day 08 2 ");day08b()
 	fmt.print("Day 09 1 ");day09a()	
 	fmt.print("Day 09 2 ");day09b()	
-	
+	// day09b_visual()
 }
