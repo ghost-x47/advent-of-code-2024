@@ -20,6 +20,11 @@
 			"name": "build_odin",
 			"cmd": "odin run . -subsystem:windows -debug",
 			"file_regex": "^(.+)\\(([0-9]+):([0-9]+)\\) (.+)$",
+		},
+		{
+			"name": "build_odin_release",
+			"cmd": "odin run . -subsystem:windows -no-bounds-check -disable-assert -o:speed",
+			"file_regex": "^(.+)\\(([0-9]+):([0-9]+)\\) (.+)$",
 		}
 	],
 	"settings":
